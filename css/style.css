@@ -1,0 +1,299 @@
+
+/* =========================================
+   LAB 4 - STUDENT GRADE PORTAL
+   Theme Colors and Bootstrap Overrides
+========================================= */
+
+:root {
+    --bs-primary: #0d5c3e;
+    --bs-primary-rgb: 13, 92, 62;
+    --bs-secondary: #1a936f;
+    --bs-secondary-rgb: 26, 147, 111;
+    --bs-success: #28a745;
+    --bs-info: #17a2b8;
+    --bs-warning: #f3a712;
+    --bs-danger: #dc3545;
+    --bs-link-color-rgb: 26, 147, 111;
+    --bs-link-hover-color-rgb: 13, 92, 62;
+
+    --theme-primary: #0d5c3e;
+    --theme-secondary: #1a936f;
+    --theme-accent: #f3a712;
+    --theme-background: #f0f7f4;
+    --theme-light-accent: #d4ece4;
+    --theme-text: #1a2e24;
+}
+
+/* =========================================
+   GENERAL STYLES
+========================================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--theme-background);
+    color: var(--theme-text);
+    margin: 0;
+}
+
+h1,
+h3,
+h4 {
+    color: var(--theme-primary);
+    font-weight: bold;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* =========================================
+   CARDS
+========================================= */
+
+.card {
+    border: 1px solid var(--theme-secondary);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar.bg-primary {
+    padding: 20px 0;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.btn-outline-light:hover {
+    color: var(--theme-primary);
+}
+
+/* =========================================
+   SIDEBAR MENU
+========================================= */
+
+aside .card h4 {
+    margin-bottom: 10px;
+}
+
+aside .card a {
+    display: block;
+    color: var(--theme-primary);
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+aside .card a:hover {
+    background-color: var(--theme-light-accent);
+}
+
+@media (min-width: 768px) {
+    aside {
+        align-self: stretch;
+    }
+
+    aside .card {
+        position: sticky;
+        top: 20px;
+    }
+
+    main#dashboard,
+    main#dashboard + * {
+        min-width: 0;
+    }
+}
+
+/* =========================================
+   STUDENT INFORMATION
+========================================= */
+
+.student-info {
+    border-left: 5px solid var(--theme-secondary);
+}
+
+/* =========================================
+   STATISTIC CARDS
+========================================= */
+
+.stat-card {
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card h3 {
+    font-size: clamp(1.1rem, 1.6vw, 1.75rem);
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* =========================================
+   LOGIN PAGE
+========================================= */
+
+.login-page {
+    min-height: 100vh;
+}
+
+.login-card {
+    max-width: 450px;
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    border-color: var(--theme-secondary);
+    box-shadow: 0 0 0 0.25rem rgba(26, 147, 111, 0.25);
+}
+
+.demo-text {
+    color: #555;
+}
+
+#loginFeedback {
+    min-height: 24px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.btn-primary {
+    background-color: var(--theme-secondary);
+    border-color: var(--theme-secondary);
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
+}
+
+/* =========================================
+   TABLES
+========================================= */
+
+.table > thead > tr > th {
+    background-color: var(--theme-primary);
+    color: #ffffff;
+}
+
+/* =========================================
+   CUSTOM COMPONENTS
+========================================= */
+
+.custom-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+}
+
+.shadow-hover {
+    transition: box-shadow 0.3s ease;
+}
+
+.shadow-hover:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.border-accent {
+    border-left: 4px solid var(--theme-accent);
+}
+
+.border-primary-custom {
+    border-left: 4px solid var(--theme-primary);
+}
+
+.border-success-custom {
+    border-left: 4px solid var(--bs-success);
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(
+        135deg,
+        var(--theme-primary),
+        var(--theme-secondary)
+    );
+}
+
+.text-accent {
+    color: var(--theme-accent);
+}
+
+.text-primary-custom {
+    color: var(--theme-primary);
+}
+
+/* =========================================
+   LAB 4 - RESPONSIVE INVENTORY CHARTS
+========================================= */
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    min-width: 0;
+}
+
+.chart-container canvas {
+    display: block;
+    max-width: 100%;
+}
+
+.chart-container-small {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    min-width: 0;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 768px) {
+    .chart-container,
+    .chart-container-small {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .chart-container,
+    .chart-container-small {
+        height: 280px;
+    }
+
+    #inventoryFilters .btn,
+    #inventorySection .btn {
+        width: 100%;
+    }
+
+    .table {
+        font-size: 0.85rem;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}

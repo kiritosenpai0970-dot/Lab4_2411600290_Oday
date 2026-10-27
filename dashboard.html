@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Portal - Lab 4</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <span class="navbar-brand">Student Grade Portal</span>
+            <button class="btn btn-outline-light btn-sm" id="logoutBtn" type="button">
+                Logout
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid container-lg mt-4">
+        <div class="row">
+
+            <aside class="col-12 col-md-3 col-lg-2 mb-4">
+                <div class="card">
+                    <h4>Menu</h4>
+                    <a href="#dashboard">Dashboard</a>
+                    <a href="#student-information">Student Information</a>
+                    <a href="#recent-activity">Recent Activity</a>
+                    <a href="#inventorySection">School Inventory</a>
+                    <a href="#inventoryCharts">Inventory Charts</a>
+                </div>
+            </aside>
+
+            <main id="dashboard" class="col-12 col-md-9 col-lg-10">
+
+                <header class="mb-4">
+                    <h1>Student Dashboard</h1>
+                    <p class="text-muted">View your academic progress and school inventory.</p>
+                    <p id="greeting">Good afternoon, Student!</p>
+                </header>
+
+                <div class="alert alert-info">
+                    Welcome to your Student Grade Portal!
+                </div>
+
+                <section class="card custom-card student-info mb-4" id="student-information">
+                    <h4>Student Information</h4>
+                    <p>Name: <span id="studentName">Un Hyo Jeremiah M. Oday</span></p>
+                    <p>Course: <span id="studentCourse">Information Technology</span></p>
+                </section>
+
+                <section class="row mb-3">
+                    <div class="col-6 col-xl-3">
+                        <div class="card stat-card mb-3 h-100">
+                            <h3 id="stat1-title">GPA</h3>
+                            <p class="stat-value" id="stat1-value">3.50</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-xl-3">
+                        <div class="card stat-card mb-3 h-100">
+                            <h3 id="stat2-title">Courses</h3>
+                            <p class="stat-value" id="stat2-value">5 Courses</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-xl-3">
+                        <div class="card stat-card mb-3 h-100">
+                            <h3 id="stat3-title">Assignments</h3>
+                            <p class="stat-value" id="stat3-value">1 Pending</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-xl-3">
+                        <div class="card stat-card mb-3 h-100">
+                            <h3 id="stat4-title">Attendance</h3>
+                            <p class="stat-value" id="stat4-value">95%</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="inventorySection" class="mb-4">
+                    <h2 class="mb-3">School Supplies Inventory</h2>
+
+                    <div id="inventoryAlert" class="mb-3" aria-live="polite"></div>
+
+                    <div class="row mb-3">
+                        <div class="col-6 col-xl-3">
+                            <div class="card stat-card mb-3 h-100">
+                                <h3>Total Products</h3>
+                                <p class="stat-value" id="inventoryTotalProducts">0</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="card stat-card mb-3 h-100">
+                                <h3>Inventory Value</h3>
+                                <p class="stat-value" id="inventoryTotalValue">₱0.00</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="card stat-card mb-3 h-100">
+                                <h3>Low Stock</h3>
+                                <p class="stat-value" id="inventoryLowStock">0</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="card stat-card mb-3 h-100">
+                                <h3>Out of Stock</h3>
+                                <p class="stat-value" id="inventoryOutOfStock">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Product Form -->
+                    <div class="card mb-4" id="addProductSection">
+                        <h4>Add New Product</h4>
+
+                        <div id="addProductMessage" aria-live="polite"></div>
+
+                        <form id="addProductForm">
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <label for="newProductName" class="form-label">Product Name</label>
+                                    <input type="text" id="newProductName" class="form-control" required maxlength="100">
+                                </div>
+
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <label for="newProductSku" class="form-label">SKU</label>
+                                    <input type="text" id="newProductSku" class="form-control" required maxlength="50">
+                                </div>
+
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <label for="newProductCategory" class="form-label">Category</label>
+                                    <select id="newProductCategory" class="form-select" required>
+                                        <option value="Paper Supplies">Paper Supplies</option>
+                                        <option value="Writing Tools">Writing Tools</option>
+                                        <option value="School Tools">School Tools</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-6 col-md-4">
+                                    <label for="newProductQuantity" class="form-label">Quantity</label>
+                                    <input type="number" id="newProductQuantity" class="form-control" min="0" step="1" required>
+                                </div>
+
+                                <div class="col-6 col-md-4">
+                                    <label for="newProductReorder" class="form-label">Reorder Level</label>
+                                    <input type="number" id="newProductReorder" class="form-control" min="0" step="1" value="10" required>
+                                </div>
+
+                                <div class="col-12 col-md-4">
+                                    <label for="newProductPrice" class="form-label">Unit Price (₱)</label>
+                                    <input type="number" id="newProductPrice" class="form-control" min="0" step="0.01" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="addProductBtn" class="btn btn-success mt-3">
+                                Add Product
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Search, Filters, and Sorting -->
+                    <div class="card mb-4" id="inventoryFilters">
+                        <h4>Search, Filter, and Sort Products</h4>
+
+                        <div class="row g-3">
+                            <div class="col-12 col-lg-4">
+                                <label for="productSearch" class="form-label">Search Name or SKU</label>
+                                <input type="search" id="productSearch" class="form-control" placeholder="Search school supplies...">
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-2">
+                                <label for="categoryFilter" class="form-label">Category</label>
+                                <select id="categoryFilter" class="form-select">
+                                    <option value="all">All Categories</option>
+                                    <option value="Paper Supplies">Paper Supplies</option>
+                                    <option value="Writing Tools">Writing Tools</option>
+                                    <option value="School Tools">School Tools</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-2">
+                                <label for="stockFilter" class="form-label">Stock Status</label>
+                                <select id="stockFilter" class="form-select">
+                                    <option value="all">All Statuses</option>
+                                    <option value="in-stock">In Stock</option>
+                                    <option value="low-stock">Low Stock</option>
+                                    <option value="out-of-stock">Out of Stock</option>
+                                </select>
+                            </div>
+
+                            <div class="col-6 col-lg-2">
+                                <label for="minPrice" class="form-label">Minimum Price (₱)</label>
+                                <input type="number" id="minPrice" class="form-control" min="0" step="0.01" placeholder="0">
+                            </div>
+
+                            <div class="col-6 col-lg-2">
+                                <label for="maxPrice" class="form-label">Maximum Price (₱)</label>
+                                <input type="number" id="maxPrice" class="form-control" min="0" step="0.01" placeholder="No limit">
+                            </div>
+
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <label for="sortFilter" class="form-label">Sort Products By</label>
+                                <select id="sortFilter" class="form-select">
+                                    <option value="name-asc">Name (A–Z)</option>
+                                    <option value="name-desc">Name (Z–A)</option>
+                                    <option value="quantity-asc">Quantity (Low to High)</option>
+                                    <option value="quantity-desc">Quantity (High to Low)</option>
+                                    <option value="price-asc">Price (Low to High)</option>
+                                    <option value="price-desc">Price (High to Low)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <button type="button" class="btn btn-outline-secondary" id="resetFiltersBtn">Reset Filters</button>
+                            <button type="button" class="btn btn-primary" id="exportCsvBtn">Export CSV</button>
+                            <button type="button" class="btn btn-outline-primary" id="simulateUpdateBtn">Simulate Stock Update</button>
+                        </div>
+
+                        <p class="text-muted small mt-3 mb-0" id="inventoryResultCount" aria-live="polite">
+                            Loading inventory...
+                        </p>
+                    </div>
+
+                    <!-- Inventory Table -->
+                    <div class="card mb-4">
+                        <h4>Inventory List</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>SKU</th>
+                                        <th>Product</th>
+                                        <th>Category</th>
+                                        <th>Quantity</th>
+                                        <th>Reorder Level</th>
+                                        <th>Unit Price</th>
+                                        <th>Inventory Value</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTableBody">
+                                    <tr><td colspan="8">Loading inventory...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Recent Inventory Changes -->
+                    <div class="card mb-4">
+                        <h4>Recent Inventory Changes</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered mb-0">
+                                <thead>
+                                    <tr><th>Time</th><th>Product</th><th>Quantity Change</th></tr>
+                                </thead>
+                                <tbody id="inventoryChangesBody">
+                                    <tr><td colspan="3">No changes yet.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Inventory Charts -->
+                <section id="inventoryCharts" class="mb-4">
+                    <h2 class="mb-3">Inventory Charts</h2>
+                    <div class="row">
+                        <div class="col-12 col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <h4>Inventory Value by Category</h4>
+                                <div class="chart-container"><canvas id="categoryValueChart"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-4">
+                            <div class="card h-100">
+                                <h4>Stock Status Distribution</h4>
+                                <div class="chart-container"><canvas id="stockStatusChart"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <h4>Top Five Products by Inventory Value</h4>
+                                <div class="chart-container chart-container-small"><canvas id="topProductsChart"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Academic Activity -->
+                <section class="card custom-card mb-4" id="recent-activity">
+                    <h4>Recent Academic Activity</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered mb-0">
+                            <thead><tr><th>Date</th><th>Activity</th><th>Status</th></tr></thead>
+                            <tbody id="activityTableBody">
+                                <tr><td>2026-10-22 14:30</td><td>Lab Exercise 3 submitted - Web Systems and Technologies</td><td><span class="badge bg-success">success</span></td></tr>
+                                <tr><td>2026-10-22 13:15</td><td>Quiz graded - Database (88)</td><td><span class="badge bg-info text-dark">info</span></td></tr>
+                                <tr><td>2026-10-22 11:45</td><td>Assignment due soon - Java Programming</td><td><span class="badge bg-warning text-dark">warning</span></td></tr>
+                                <tr><td>2026-10-21 09:00</td><td>Final Project graded - Web Development (90)</td><td><span class="badge bg-success">success</span></td></tr>
+                                <tr><td>2026-10-20 16:20</td><td>Midterm Exam graded - Java Programming (92)</td><td><span class="badge bg-success">success</span></td></tr>
+                                <tr><td>2026-10-19 14:10</td><td>Missing requirement flagged - Database Activity 3</td><td><span class="badge bg-danger">danger</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <footer class="text-center text-muted small py-4">
+                    &copy; 2026 Student Grade Portal
+                </footer>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/dataManager.js"></script>
+    <script src="js/chart.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <!-- Add Product Form Handler -->
+    <script>
+    document.getElementById("addProductForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const message = document.getElementById("addProductMessage");
+        const button = document.getElementById("addProductBtn");
+
+        const productData = {
+            name: document.getElementById("newProductName").value.trim(),
+            sku: document.getElementById("newProductSku").value.trim(),
+            category: document.getElementById("newProductCategory").value,
+            quantity: Number(document.getElementById("newProductQuantity").value),
+            reorder_level: Number(document.getElementById("newProductReorder").value),
+            unit_price: Number(document.getElementById("newProductPrice").value)
+        };
+
+        if (!productData.name || !productData.sku ||
+            !Number.isInteger(productData.quantity) || productData.quantity < 0 ||
+            !Number.isInteger(productData.reorder_level) || productData.reorder_level < 0 ||
+            !Number.isFinite(productData.unit_price) || productData.unit_price < 0) {
+            message.innerHTML = '<div class="alert alert-danger">Please enter valid product details.</div>';
+            return;
+        }
+
+        if (typeof addProduct !== "function") {
+            message.innerHTML = '<div class="alert alert-danger">Add Product function is unavailable. Check dataManager.js.</div>';
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = "Adding...";
+
+        try {
+            await addProduct(productData);
+
+            message.innerHTML = '<div class="alert alert-success">Product added successfully!</div>';
+            this.reset();
+            document.getElementById("newProductReorder").value = 10;
+
+            // Reload saved products so the table, totals, and charts refresh.
+            await initializeData();
+
+            if (typeof renderInventory === "function") {
+                renderInventory();
+            } else {
+                window.location.reload();
+            }
+        } catch (error) {
+            message.textContent = error.message || "Unable to add product.";
+            message.className = "alert alert-danger";
+        } finally {
+            button.disabled = false;
+            button.textContent = "Add Product";
+        }
+    });
+    </script>
+
+</body>
+</html>

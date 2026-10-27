@@ -1,0 +1,49 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Notebook",
+            "sku": "SUP-001",
+            "category": "Paper",
+            "quantity": 49,
+            "reorder_level": 10,
+            "unit_price": 35
+        },
+        {
+            "id": 2,
+            "name": "Ballpoint Pen",
+            "sku": "SUP-002",
+            "category": "Writing",
+            "quantity": 5,
+            "reorder_level": 10,
+            "unit_price": 12
+        },
+        {
+            "id": 3,
+            "name": "Pencil",
+            "sku": "SUP-003",
+            "category": "Writing",
+            "quantity": 26,
+            "reorder_level": 10,
+            "unit_price": 8
+        },
+        {
+            "id": 4,
+            "name": "Bond Paper",
+            "sku": "SUP-004",
+            "category": "Paper",
+            "quantity": 0,
+            "reorder_level": 5,
+            "unit_price": 250
+        },
+        {
+            "id": 5,
+            "name": "Ruler",
+            "sku": "SUP-005",
+            "category": "School Tools",
+            "quantity": 20,
+            "reorder_level": 5,
+            "unit_price": 20
+        }
+    ]
+}
