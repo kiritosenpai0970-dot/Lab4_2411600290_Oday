@@ -1,382 +1,433 @@
+/* =====================================
+   STUDENT GRADE PORTAL
+   LAB 4 - DATA MANAGER
+===================================== */
 
-/* =========================================
-   Student Grade Portal
-   Lab 4: Inventory Data Management
-   Connected to PHP API
-========================================= */
+let students = [];
+let studentChanges = [];
 
-const API_URL = "api_products.php";
-const ADD_API_URL = "api_add_product.php";
-const UPDATE_STOCK_API_URL = "api_update_stock.php";
+const STUDENTS_API = 'api_students.php';
+const ADD_STUDENT_API = 'api_add_student.php';
+const UPDATE_STUDENT_API = 'api_update_student.php';
 
-let products = [];
-let inventoryChanges = [];
+// =====================================
+// LOAD STUDENTS FROM PHP API
+// =====================================
 
-// Load inventory from PHP API
 async function initializeData() {
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch(STUDENTS_API, {
+            cache: 'no-store'
+        });
 
         if (!response.ok) {
             throw new Error(`HTTP error: ${response.status}`);
         }
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (!data.success || !Array.isArray(data.products)) {
-            throw new Error("Invalid inventory data received.");
+        if (!result.success || !Array.isArray(result.students)) {
+            throw new Error(result.message || 'Invalid student data.');
         }
 
-        products = data.products.map(product => ({
-            ...product,
-            id: Number(product.id),
-            category: normalizeCategory(product.category),
-            quantity: Number(product.quantity),
-            reorder_level: Number(product.reorder_level),
-            unit_price: Number(product.unit_price),
-            supplier: product.supplier || "Not specified"
-        }));
+        students = result.students;
 
-        inventoryChanges = [];
+        return students;
 
-        console.log("Inventory loaded from PHP API.");
-
-        return getProducts();
     } catch (error) {
-        console.error("Unable to load inventory:", error);
+        console.error('Unable to load students:', error);
         throw error;
     }
 }
 
-// Keep category names consistent
-function normalizeCategory(category) {
-    const categories = {
-        "Paper": "Paper Supplies",
-        "Writing": "Writing Tools"
-    };
+// =====================================
+// GET ALL STUDENTS
+// =====================================
 
-    return categories[category] || category;
+function getStudents() {
+    return [...students];
 }
 
-// Return all products
-function getProducts() {
-    return products.map(product => ({ ...product }));
+// =====================================
+// GET STUDENT BY ID
+// =====================================
+
+function getStudentById(id) {
+    return students.find(
+        student => Number(student.id) === Number(id)
+    );
 }
 
-// Return one product by ID
-function getProductById(id) {
-    const product = products.find(item => item.id === Number(id));
-    return product ? { ...product } : null;
+// =====================================
+// GET STUDENTS BY COURSE
+// =====================================
+
+function getStudentsByCourse(courseName) {
+    return students.filter(
+        student => student.course === courseName
+    );
 }
 
-// Return products in a category
-function getProductsByCategory(category) {
-    if (!category || category === "all") {
-        return getProducts();
-    }
+// =====================================
+// GET AT-RISK STUDENTS
+// =====================================
 
-    return products
-        .filter(product => product.category === category)
-        .map(product => ({ ...product }));
+function getAtRiskStudents() {
+    return students.filter(student =>
+        Number(student.grade) < 80 ||
+        Number(student.attendance) < 75
+    );
 }
 
-// Determine stock status
-function getStockStatus(product) {
-    if (product.quantity <= 0) {
-        return "out-of-stock";
-    }
+// =====================================
+// GET DASHBOARD STATISTICS
+// =====================================
 
-    if (product.quantity <= product.reorder_level) {
-        return "low-stock";
-    }
+function getStudentStatistics() {
+    const total = students.length;
 
-    return "in-stock";
-}
+    const averageGrade = total
+        ? students.reduce(
+            (sum, student) => sum + Number(student.grade),
+            0
+        ) / total
+        : 0;
 
-// Return low-stock products
-function getLowStockProducts() {
-    return products
-        .filter(product =>
-            product.quantity > 0 &&
-            product.quantity <= product.reorder_level
-        )
-        .map(product => ({ ...product }));
-}
+    const averageAttendance = total
+        ? students.reduce(
+            (sum, student) => sum + Number(student.attendance),
+            0
+        ) / total
+        : 0;
 
-// Return out-of-stock products
-function getOutOfStockProducts() {
-    return products
-        .filter(product => product.quantity <= 0)
-        .map(product => ({ ...product }));
-}
+    const activeStudents = students.filter(
+        student => student.status === 'Active'
+    ).length;
 
-// Inventory statistics
-function getStockStatistics() {
+    const atRiskStudents = getAtRiskStudents().length;
+
     return {
-        totalProducts: products.length,
-        totalValue: products.reduce(
-            (total, product) =>
-                total + product.quantity * product.unit_price,
-            0
-        ),
-        lowStockCount: getLowStockProducts().length,
-        outOfStockCount: getOutOfStockProducts().length,
-        totalQuantity: products.reduce(
-            (total, product) => total + product.quantity,
-            0
-        )
+        total,
+        averageGrade: Number(averageGrade.toFixed(2)),
+        averageAttendance: Number(averageAttendance.toFixed(2)),
+        activeStudents,
+        atRiskStudents
     };
 }
 
-// Summarize inventory by category
-function getCategorySummary() {
-    const summary = {};
+// =====================================
+// GET UNIQUE FILTER VALUES
+// =====================================
 
-    products.forEach(product => {
-        if (!summary[product.category]) {
-            summary[product.category] = {
-                category: product.category,
-                totalQuantity: 0,
-                totalValue: 0,
-                productCount: 0
-            };
+function getUniqueValues(field) {
+    return [...new Set(
+        students.map(student => student[field]).filter(Boolean)
+    )].sort();
+}
+
+// =====================================
+// SEARCH STUDENTS
+// =====================================
+
+function searchStudents(keyword) {
+    const search = String(keyword || '').toLowerCase().trim();
+
+    if (!search) {
+        return getStudents();
+    }
+
+    return students.filter(student =>
+        String(student.name).toLowerCase().includes(search) ||
+        String(student.student_id).toLowerCase().includes(search) ||
+        String(student.class_code).toLowerCase().includes(search)
+    );
+}
+
+// =====================================
+// APPLY FILTERS
+// =====================================
+
+function applyFilters(filters = {}) {
+    return students.filter(student => {
+
+        const search = String(
+            filters.search || ''
+        ).toLowerCase().trim();
+
+        const matchesSearch =
+            !search ||
+            String(student.name).toLowerCase().includes(search) ||
+            String(student.student_id).toLowerCase().includes(search) ||
+            String(student.class_code).toLowerCase().includes(search);
+
+        const matchesCourse =
+            !filters.course || student.course === filters.course;
+
+        const matchesYear =
+            !filters.yearLevel ||
+            student.year_level === filters.yearLevel;
+
+        const matchesClass =
+            !filters.classCode ||
+            student.class_code === filters.classCode;
+
+        const matchesStatus =
+            !filters.status ||
+            student.attendance_status === filters.status;
+
+        const grade = Number(student.grade);
+
+        const matchesMinGrade =
+            filters.minGrade === '' ||
+            filters.minGrade === undefined ||
+            grade >= Number(filters.minGrade);
+
+        const matchesMaxGrade =
+            filters.maxGrade === '' ||
+            filters.maxGrade === undefined ||
+            grade <= Number(filters.maxGrade);
+
+        return (
+            matchesSearch &&
+            matchesCourse &&
+            matchesYear &&
+            matchesClass &&
+            matchesStatus &&
+            matchesMinGrade &&
+            matchesMaxGrade
+        );
+    });
+}
+
+// =====================================
+// SORT STUDENTS
+// =====================================
+
+function sortStudents(records, field = 'name', direction = 'asc') {
+    const sorted = [...records];
+
+    sorted.sort((a, b) => {
+        let first = a[field];
+        let second = b[field];
+
+        if (['grade', 'attendance'].includes(field)) {
+            first = Number(first);
+            second = Number(second);
+        } else {
+            first = String(first || '').toLowerCase();
+            second = String(second || '').toLowerCase();
         }
 
-        summary[product.category].totalQuantity += product.quantity;
-        summary[product.category].totalValue +=
-            product.quantity * product.unit_price;
-        summary[product.category].productCount++;
+        if (first < second) {
+            return direction === 'asc' ? -1 : 1;
+        }
+
+        if (first > second) {
+            return direction === 'asc' ? 1 : -1;
+        }
+
+        return 0;
     });
 
-    return Object.values(summary);
+    return sorted;
 }
 
-// Filter by category
-function filterByCategory(category) {
-    return getProductsByCategory(category);
-}
+// =====================================
+// RECORD RECENT CHANGES
+// =====================================
 
-// Filter by stock status
-function filterByStockStatus(status) {
-    if (!status || status === "all") {
-        return getProducts();
-    }
-
-    return products
-        .filter(product => getStockStatus(product) === status)
-        .map(product => ({ ...product }));
-}
-
-// Filter by price range
-function filterByPriceRange(min, max) {
-    const minimum = min === "" || min == null ? 0 : Number(min);
-    const maximum = max === "" || max == null ? Infinity : Number(max);
-
-    return products
-        .filter(product =>
-            product.unit_price >= minimum &&
-            product.unit_price <= maximum
-        )
-        .map(product => ({ ...product }));
-}
-
-// Search by name or SKU
-function searchProducts(query) {
-    const searchTerm = String(query || "").trim().toLowerCase();
-
-    if (!searchTerm) {
-        return getProducts();
-    }
-
-    return products
-        .filter(product =>
-            product.name.toLowerCase().includes(searchTerm) ||
-            product.sku.toLowerCase().includes(searchTerm)
-        )
-        .map(product => ({ ...product }));
-}
-
-// Apply filters together
-function applyFilters(filters = {}) {
-    const category = filters.category || "all";
-    const status = filters.status || "all";
-    const query = String(filters.query || "").trim().toLowerCase();
-    const min = filters.minPrice ?? "";
-    const max = filters.maxPrice ?? "";
-
-    const minimum = min === "" ? 0 : Number(min);
-    const maximum = max === "" ? Infinity : Number(max);
-
-    return products
-        .filter(product => {
-            const matchesCategory =
-                category === "all" || product.category === category;
-
-            const matchesStatus =
-                status === "all" || getStockStatus(product) === status;
-
-            const matchesPrice =
-                product.unit_price >= minimum &&
-                product.unit_price <= maximum;
-
-            const matchesSearch =
-                !query ||
-                product.name.toLowerCase().includes(query) ||
-                product.sku.toLowerCase().includes(query);
-
-            return matchesCategory &&
-                matchesStatus &&
-                matchesPrice &&
-                matchesSearch;
-        })
-        .map(product => ({ ...product }));
-}
-
-// Add a product through the PHP API
-async function addProduct(productData) {
-    const response = await fetch(ADD_API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(productData)
+function recordChange(action, name) {
+    studentChanges.unshift({
+        action,
+        name,
+        date: new Date().toLocaleString()
     });
 
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-        throw new Error(result.message || "Failed to add product.");
-    }
-
-    const newProduct = {
-        ...result.product,
-        id: Number(result.product.id),
-        category: normalizeCategory(result.product.category),
-        quantity: Number(result.product.quantity),
-        reorder_level: Number(result.product.reorder_level),
-        unit_price: Number(result.product.unit_price),
-        supplier: result.product.supplier || "Not specified"
-    };
-
-    products.push(newProduct);
-
-    return { ...newProduct };
+    studentChanges = studentChanges.slice(0, 5);
 }
 
-// Update stock through the PHP API
-async function updateProductStock(id, newQuantity) {
-    const product = products.find(item => item.id === Number(id));
-    const quantity = Number(newQuantity);
+// =====================================
+// GET RECENT CHANGES
+// =====================================
 
-    if (!product || !Number.isInteger(quantity) || quantity < 0) {
-        throw new Error("Invalid product or stock quantity.");
-    }
-
-    const response = await fetch(UPDATE_STOCK_API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            id: Number(id),
-            quantity: quantity
-        })
-    });
-
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-        throw new Error(result.message || "Failed to update stock.");
-    }
-
-    const previousQuantity = product.quantity;
-    product.quantity = quantity;
-
-    inventoryChanges.unshift({
-        time: new Date().toLocaleTimeString(),
-        product: product.name,
-        change: `${previousQuantity} → ${quantity}`
-    });
-
-    inventoryChanges = inventoryChanges.slice(0, 10);
-
-    return true;
+function getStudentChanges() {
+    return [...studentChanges];
 }
 
-// Return recent stock changes
-function getInventoryChanges() {
-    return inventoryChanges.map(change => ({ ...change }));
-}
+// =====================================
+// LAB 4: SIMULATE STUDENT UPDATE
+// TEMPORARY CLIENT-SIDE CHANGE
+// =====================================
 
-// Simulate a stock update and save it through the API
-async function simulateInventoryUpdate() {
-    if (products.length === 0) {
+function simulateStudentUpdate() {
+    if (students.length === 0) {
         return null;
     }
 
-    const product = products[
-        Math.floor(Math.random() * products.length)
-    ];
-
-    const change = Math.random() < 0.5 ? -1 : 2;
-    const newQuantity = Math.max(0, product.quantity + change);
-
-    await updateProductStock(product.id, newQuantity);
-
-    return getProductById(product.id);
-}
-
-// Convert inventory to CSV
-function exportToCSV(data) {
-    const headers = [
-        "SKU",
-        "Product Name",
-        "Category",
-        "Quantity",
-        "Reorder Level",
-        "Unit Price",
-        "Inventory Value",
-        "Stock Status"
-    ];
-
-    const escapeCSV = value =>
-        `"${String(value ?? "").replace(/"/g, '""')}"`;
-
-    const rows = data.map(product => [
-        product.sku,
-        product.name,
-        product.category,
-        product.quantity,
-        product.reorder_level,
-        Number(product.unit_price).toFixed(2),
-        (product.quantity * product.unit_price).toFixed(2),
-        getStockStatus(product)
-    ]);
-
-    return [headers, ...rows]
-        .map(row => row.map(escapeCSV).join(","))
-        .join("\r\n");
-}
-
-// Download CSV
-function downloadCSV(
-    csvContent,
-    filename = "school_inventory.csv"
-) {
-    const blob = new Blob(
-        ["\uFEFF", csvContent],
-        { type: "text/csv;charset=utf-8;" }
+    const randomIndex = Math.floor(
+        Math.random() * students.length
     );
 
+    const student = students[randomIndex];
+
+    const possibleChanges = [-2, -1, 1, 2];
+
+    const gradeChange =
+        possibleChanges[
+            Math.floor(Math.random() * possibleChanges.length)
+        ];
+
+    const attendanceChange =
+        possibleChanges[
+            Math.floor(Math.random() * possibleChanges.length)
+        ];
+
+    student.grade = Math.max(
+        0,
+        Math.min(100, Number(student.grade) + gradeChange)
+    );
+
+    student.attendance = Math.max(
+        0,
+        Math.min(100, Number(student.attendance) + attendanceChange)
+    );
+
+    if (Number(student.attendance) >= 90) {
+        student.attendance_status = 'Present';
+    } else if (Number(student.attendance) >= 75) {
+        student.attendance_status = 'Late';
+    } else {
+        student.attendance_status = 'Absent';
+    }
+
+    recordChange('Simulated update:', student.name);
+
+    return {
+        name: student.name,
+        grade: student.grade,
+        attendance: student.attendance,
+        attendance_status: student.attendance_status
+    };
+}
+
+// =====================================
+// ADD STUDENT
+// =====================================
+
+async function addStudent(studentData) {
+    const response = await fetch(ADD_STUDENT_API, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(studentData)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+        throw new Error(
+            result.message || 'Unable to add student.'
+        );
+    }
+
+    await initializeData();
+
+    recordChange('Added student:', studentData.name);
+
+    return result;
+}
+
+// =====================================
+// UPDATE STUDENT
+// =====================================
+
+async function updateStudent(id, updates) {
+    const response = await fetch(UPDATE_STUDENT_API, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id,
+            ...updates
+        })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+        throw new Error(
+            result.message || 'Unable to update student.'
+        );
+    }
+
+    await initializeData();
+
+    const updatedStudent = getStudentById(id);
+
+    recordChange(
+        'Updated student:',
+        updatedStudent
+            ? updatedStudent.name
+            : `ID ${id}`
+    );
+
+    return result;
+}
+
+// =====================================
+// EXPORT STUDENTS TO CSV
+// =====================================
+
+function exportToCSV(records = students) {
+    if (!records.length) {
+        alert('No student records to export.');
+        return;
+    }
+
+    const headers = [
+        'Student ID',
+        'Name',
+        'Course',
+        'Year Level',
+        'CN Code',
+        'Grade',
+        'Attendance',
+        'Attendance Status',
+        'Status'
+    ];
+
+    const rows = records.map(student => [
+        student.student_id,
+        student.name,
+        student.course,
+        student.year_level,
+        student.class_code,
+        student.grade,
+        student.attendance,
+        student.attendance_status,
+        student.status
+    ]);
+
+    const csv = [headers, ...rows]
+        .map(row =>
+            row.map(value =>
+                `"${String(value ?? '').replace(/"/g, '""')}"`
+            ).join(',')
+        )
+        .join('\n');
+
+    const blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8;'
+    });
+
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
 
     link.href = url;
-    link.download = filename;
-
-    document.body.appendChild(link);
+    link.download = 'student_records.csv';
     link.click();
-    link.remove();
 
     URL.revokeObjectURL(url);
 }

@@ -1,0 +1,286 @@
+{
+    "students": [
+        {
+            "id": 1,
+            "student_id": "2026001",
+            "name": "Alex Johnson",
+            "course": "Information Technology",
+            "year_level": "2nd Year",
+            "class_code": "CN48141",
+            "grade": 90,
+            "attendance": 95,
+            "attendance_status": "Present",
+            "status": "Active",
+            "courses": [
+                {
+                    "course_name": "Web Development",
+                    "grade": 92
+                },
+                {
+                    "course_name": "Database Management",
+                    "grade": 88
+                },
+                {
+                    "course_name": "Programming",
+                    "grade": 90
+                }
+            ],
+            "performance": [
+                {
+                    "term": "Prelim",
+                    "average": 85
+                },
+                {
+                    "term": "Midterm",
+                    "average": 88
+                },
+                {
+                    "term": "Pre-Final",
+                    "average": 89
+                },
+                {
+                    "term": "Final",
+                    "average": 90
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "student_id": "2026002",
+            "name": "Sophia Martinez",
+            "course": "Information Technology",
+            "year_level": "2nd Year",
+            "class_code": "CN48141",
+            "grade": 94,
+            "attendance": 98,
+            "attendance_status": "Present",
+            "status": "Active",
+            "courses": [
+                {
+                    "course_name": "Web Development",
+                    "grade": 95
+                },
+                {
+                    "course_name": "Database Management",
+                    "grade": 92
+                },
+                {
+                    "course_name": "Programming",
+                    "grade": 95
+                }
+            ],
+            "performance": [
+                {
+                    "term": "Prelim",
+                    "average": 90
+                },
+                {
+                    "term": "Midterm",
+                    "average": 91
+                },
+                {
+                    "term": "Pre-Final",
+                    "average": 93
+                },
+                {
+                    "term": "Final",
+                    "average": 94
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "student_id": "2026003",
+            "name": "Daniel Smith",
+            "course": "Information Technology",
+            "year_level": "1st Year",
+            "class_code": "CN48142",
+            "grade": 82,
+            "attendance": 85,
+            "attendance_status": "Late",
+            "status": "Active",
+            "courses": [
+                {
+                    "course_name": "Web Development",
+                    "grade": 84
+                },
+                {
+                    "course_name": "Database Management",
+                    "grade": 80
+                },
+                {
+                    "course_name": "Programming",
+                    "grade": 82
+                }
+            ],
+            "performance": [
+                {
+                    "term": "Prelim",
+                    "average": 78
+                },
+                {
+                    "term": "Midterm",
+                    "average": 80
+                },
+                {
+                    "term": "Pre-Final",
+                    "average": 81
+                },
+                {
+                    "term": "Final",
+                    "average": 82
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "student_id": "2026004",
+            "name": "Olivia Brown",
+            "course": "Information Technology",
+            "year_level": "3rd Year",
+            "class_code": "CN48143",
+            "grade": 76,
+            "attendance": 72,
+            "attendance_status": "Absent",
+            "status": "Active",
+            "courses": [
+                {
+                    "course_name": "Web Development",
+                    "grade": 78
+                },
+                {
+                    "course_name": "Database Management",
+                    "grade": 75
+                },
+                {
+                    "course_name": "Programming",
+                    "grade": 75
+                }
+            ],
+            "performance": [
+                {
+                    "term": "Prelim",
+                    "average": 80
+                },
+                {
+                    "term": "Midterm",
+                    "average": 78
+                },
+                {
+                    "term": "Pre-Final",
+                    "average": 77
+                },
+                {
+                    "term": "Final",
+                    "average": 76
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "student_id": "2026005",
+            "name": "Ethan Wilson",
+            "course": "Information Technology",
+            "year_level": "2nd Year",
+            "class_code": "CN48142",
+            "grade": 88,
+            "attendance": 91,
+            "attendance_status": "Present",
+            "status": "Active",
+            "courses": [
+                {
+                    "course_name": "Web Development",
+                    "grade": 89
+                },
+                {
+                    "course_name": "Database Management",
+                    "grade": 86
+                },
+                {
+                    "course_name": "Programming",
+                    "grade": 89
+                }
+            ],
+            "performance": [
+                {
+                    "term": "Prelim",
+                    "average": 83
+                },
+                {
+                    "term": "Midterm",
+                    "average": 85
+                },
+                {
+                    "term": "Pre-Final",
+                    "average": 87
+                },
+                {
+                    "term": "Final",
+                    "average": 88
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "student_id": "2026007",
+            "name": "UN HYOO",
+            "course": "Basic Education",
+            "year_level": "4th Year",
+            "class_code": "CN1000",
+            "grade": 80,
+            "attendance": 100,
+            "attendance_status": "Present",
+            "status": "Active",
+            "courses": [],
+            "performance": [
+                {
+                    "term": "Prelim",
+                    "average": 80
+                },
+                {
+                    "term": "Midterm",
+                    "average": 80
+                },
+                {
+                    "term": "Pre-Final",
+                    "average": 80
+                },
+                {
+                    "term": "Final",
+                    "average": 80
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "student_id": "2026008",
+            "name": "Test Student Updated",
+            "course": "Information Technology",
+            "year_level": "1st Year",
+            "class_code": "CN48144",
+            "grade": 82,
+            "attendance": 95,
+            "attendance_status": "Present",
+            "status": "Active",
+            "courses": [],
+            "performance": [
+                {
+                    "term": "Prelim",
+                    "average": 82
+                },
+                {
+                    "term": "Midterm",
+                    "average": 82
+                },
+                {
+                    "term": "Pre-Final",
+                    "average": 82
+                },
+                {
+                    "term": "Final",
+                    "average": 82
+                }
+            ]
+        }
+    ]
+}

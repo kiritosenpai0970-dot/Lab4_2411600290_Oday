@@ -1,299 +1,311 @@
-
-/* =========================================
-   LAB 4 - STUDENT GRADE PORTAL
-   Theme Colors and Bootstrap Overrides
-========================================= */
-
 :root {
-    --bs-primary: #0d5c3e;
-    --bs-primary-rgb: 13, 92, 62;
-    --bs-secondary: #1a936f;
-    --bs-secondary-rgb: 26, 147, 111;
-    --bs-success: #28a745;
-    --bs-info: #17a2b8;
-    --bs-warning: #f3a712;
-    --bs-danger: #dc3545;
-    --bs-link-color-rgb: 26, 147, 111;
-    --bs-link-hover-color-rgb: 13, 92, 62;
-
-    --theme-primary: #0d5c3e;
-    --theme-secondary: #1a936f;
-    --theme-accent: #f3a712;
-    --theme-background: #f0f7f4;
-    --theme-light-accent: #d4ece4;
-    --theme-text: #1a2e24;
+    --primary: #0d5c3e;
+    --secondary: #1a936f;
+    --accent: #f3a712;
+    --background: #f0f7f4;
+    --light-accent: #d4ece4;
+    --text: #1a2e24;
+    --white: #ffffff;
+    --danger: #dc3545;
 }
 
-/* =========================================
-   GENERAL STYLES
-========================================= */
+* {
+    box-sizing: border-box;
+}
 
 body {
     font-family: Arial, sans-serif;
-    background-color: var(--theme-background);
-    color: var(--theme-text);
+    background: var(--background);
+    color: var(--text);
     margin: 0;
 }
 
-h1,
-h3,
-h4 {
-    color: var(--theme-primary);
-    font-weight: bold;
-}
+/* NAVBAR */
 
-img {
-    max-width: 100%;
-}
-
-/* =========================================
-   CARDS
-========================================= */
-
-.card {
-    border: 1px solid var(--theme-secondary);
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-}
-
-/* =========================================
-   NAVBAR
-========================================= */
-
-.navbar.bg-primary {
-    padding: 20px 0;
+.navbar {
+    background: var(--primary) !important;
+    padding: 12px 0;
 }
 
 .navbar-brand {
+    color: var(--white) !important;
     font-weight: bold;
 }
 
-.btn-outline-light:hover {
-    color: var(--theme-primary);
+.navbar-brand img {
+    object-fit: contain;
 }
 
-/* =========================================
-   SIDEBAR MENU
-========================================= */
-
-aside .card h4 {
-    margin-bottom: 10px;
+#logoutBtn {
+    background: var(--white);
+    color: var(--primary);
+    border: none;
+    font-weight: bold;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-aside .card a {
-    display: block;
-    color: var(--theme-primary);
-    text-decoration: none;
-    padding: 10px;
-    border-radius: 6px;
+#logoutBtn:hover {
+    background: var(--light-accent);
+    transform: translateY(-2px);
 }
 
-aside .card a:hover {
-    background-color: var(--theme-light-accent);
+/* GENERAL CARDS */
+
+.card {
+    background: var(--white);
+    border: none;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-@media (min-width: 768px) {
-    aside {
-        align-self: stretch;
-    }
-
-    aside .card {
-        position: sticky;
-        top: 20px;
-    }
-
-    main#dashboard,
-    main#dashboard + * {
-        min-width: 0;
-    }
+.card h5 {
+    color: var(--primary);
+    font-weight: bold;
 }
 
-/* =========================================
-   STUDENT INFORMATION
-========================================= */
-
-.student-info {
-    border-left: 5px solid var(--theme-secondary);
-}
-
-/* =========================================
-   STATISTIC CARDS
-========================================= */
+/* DASHBOARD STATISTICS */
 
 .stat-card {
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border-left: 5px solid var(--secondary);
 }
 
-.stat-card h3 {
-    font-size: clamp(1.1rem, 1.6vw, 1.75rem);
-    margin-bottom: 8px;
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
 }
 
 .stat-value {
-    font-size: 1.5rem;
+    color: var(--primary);
+    font-size: 28px;
     font-weight: bold;
-    margin: 0;
 }
 
-/* =========================================
-   LOGIN PAGE
-========================================= */
-
-.login-page {
-    min-height: 100vh;
+.stat-label {
+    color: #68766e;
+    font-size: 14px;
 }
 
-.login-card {
-    max-width: 450px;
-}
+/* BUTTONS */
 
-.form-control {
-    border-radius: 8px;
+.btn {
+    transition: background 0.2s ease, border-color 0.2s ease,
+                transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.form-control:focus {
-    border-color: var(--theme-secondary);
-    box-shadow: 0 0 0 0.25rem rgba(26, 147, 111, 0.25);
-}
-
-.demo-text {
-    color: #555;
-}
-
-#loginFeedback {
-    min-height: 24px;
-}
-
-/* =========================================
-   BUTTONS
-========================================= */
 
 .btn-primary {
-    background-color: var(--theme-secondary);
-    border-color: var(--theme-secondary);
-    border-radius: 8px;
+    background: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-primary:hover {
-    background-color: var(--theme-primary);
-    border-color: var(--theme-primary);
+    background: var(--secondary);
+    border-color: var(--secondary);
+    transform: translateY(-1px);
 }
 
-/* =========================================
-   TABLES
-========================================= */
-
-.table > thead > tr > th {
-    background-color: var(--theme-primary);
-    color: #ffffff;
+.btn-success {
+    background: var(--secondary);
+    border-color: var(--secondary);
 }
 
-/* =========================================
-   CUSTOM COMPONENTS
-========================================= */
+.btn-success:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+}
 
-.custom-card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* FORMS */
+
+.form-control,
+.form-select {
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    border: 1px solid #cedbd4;
+    padding: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.custom-card:hover {
-    transform: translateY(-5px);
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 0.2rem rgba(26, 147, 111, 0.15);
 }
 
-.shadow-hover {
-    transition: box-shadow 0.3s ease;
+/* STUDENT TABLE */
+
+.table {
+    vertical-align: middle;
 }
 
-.shadow-hover:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+.table thead th {
+    background: var(--primary);
+    color: var(--white);
+    white-space: nowrap;
+    padding: 13px;
 }
 
-.border-accent {
-    border-left: 4px solid var(--theme-accent);
+.table tbody td {
+    padding: 12px;
 }
 
-.border-primary-custom {
-    border-left: 4px solid var(--theme-primary);
+.table tbody tr {
+    transition: background 0.2s ease;
 }
 
-.border-success-custom {
-    border-left: 4px solid var(--bs-success);
+.table tbody tr:hover {
+    background: var(--light-accent);
 }
 
-.bg-gradient-primary {
-    background: linear-gradient(
-        135deg,
-        var(--theme-primary),
-        var(--theme-secondary)
-    );
+.table-responsive {
+    border-radius: 8px;
 }
 
-.text-accent {
-    color: var(--theme-accent);
+/* STATUS LABELS */
+
+.badge {
+    padding: 7px 10px;
+    border-radius: 20px;
 }
 
-.text-primary-custom {
-    color: var(--theme-primary);
-}
-
-/* =========================================
-   LAB 4 - RESPONSIVE INVENTORY CHARTS
-========================================= */
+/* CHARTS */
 
 .chart-container {
     position: relative;
     width: 100%;
     height: 350px;
-    min-width: 0;
-}
-
-.chart-container canvas {
-    display: block;
-    max-width: 100%;
 }
 
 .chart-container-small {
     position: relative;
     width: 100%;
-    height: 350px;
-    min-width: 0;
+    height: 300px;
 }
 
-/* =========================================
-   RESPONSIVE DESIGN
-========================================= */
+/* NOTIFICATIONS */
+
+#notification {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    width: min(360px, calc(100% - 40px));
+    z-index: 1055;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* LOADING AND ERROR */
+
+#loadingState,
+#errorState {
+    border-radius: 8px;
+}
+
+/* RECENT CHANGES */
+
+#studentChanges {
+    padding-left: 20px;
+}
+
+#studentChanges li {
+    margin-bottom: 10px;
+}
+
+/* LOGIN PAGE */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: var(--background);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--white);
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h2 {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.login-card img {
+    max-width: 120px;
+    height: auto;
+    object-fit: contain;
+}
+
+.demo-text {
+    color: #68766e;
+    font-size: 13px;
+}
+
+#loginFeedback {
+    margin-top: 15px;
+}
+
+/* RESPONSIVE DESIGN */
 
 @media (max-width: 768px) {
-    .chart-container,
-    .chart-container-small {
+    .stat-value {
+        font-size: 24px;
+    }
+
+    .chart-container {
         height: 300px;
+    }
+
+    .chart-container-small {
+        height: 260px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .login-card {
+        padding: 25px;
     }
 }
 
 @media (max-width: 576px) {
     .navbar-brand {
-        font-size: 1.1rem;
-    }
-
-    .chart-container,
-    .chart-container-small {
-        height: 280px;
-    }
-
-    #inventoryFilters .btn,
-    #inventorySection .btn {
-        width: 100%;
-    }
-
-    .table {
-        font-size: 0.85rem;
+        font-size: 15px;
     }
 
     .stat-value {
-        font-size: 1.25rem;
+        font-size: 22px;
+    }
+
+    .chart-container {
+        height: 260px;
+    }
+
+    .chart-container-small {
+        height: 230px;
+    }
+
+    #notification {
+        top: 85px;
+        right: 10px;
+        width: calc(100% - 20px);
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
     }
 }
